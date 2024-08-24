@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <Box p={4}>
       <Heading mb={4}>Home Page</Heading>
-      <Link href="/dashboard">
+      <Link href="/auth/login">
         <Button colorScheme="blue">Go to Dashboard</Button>
       </Link>
     </Box>

@@ -1,22 +1,34 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_KEY,
-  timeout: 3000,
-});
+export interface FetchOptions {
+  method?: HttpMethod;
+  headers?: HeadersInit;
+  body?: any;
+}
 
-export default function HttpRequest(): AxiosInstance {
-  instance.interceptors.request.use(
-    (config) => {
-      const token = localStorage.getItem("token");
-      if (token) config.headers.Authorization = `Bearer ${token}`;
+export async function httpRequest<T>(
+  url: string,
+  { method = "GET", headers = {}, body }: FetchOptions = {}
+): Promise<T> {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
+  const defaultHeaders: HeadersInit = {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...headers,
+  };
 
-  return instance;
+  const response = await fetch(url, {
+    method,
+    headers: defaultHeaders,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Something went wrong");
+  }
+
+  return response.json();
 }
