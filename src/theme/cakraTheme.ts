@@ -3,38 +3,64 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const theme = extendTheme({
+const cakraTheme = extendTheme({
+    components: {
+        Button: {
+            variants: {
+                primary: {
+                    bg: 'primary.500',
+                    color: 'white',
+                    _hover: {
+                        bg: 'primary.700',
+                    },
+                },
+                defaultProps: {
+                    variant: 'outline',
+                },
+            },
+        },
+    },
     colors: {
-        brand: {
-            'Base/White': '#FFFFFF',
-            'Base/Black': '212121',
-            'Neutral/100': '#F6F7F9',
-            'Neutral/300': '#E3E5E8',
-            'Neutral/500': '#9CA3AF',
-            'Neutral/700': '#5A6472',
-            'Neutral/900': '#333E4D',
-            'Primary/100': '#D7FFF4',
-            'Primary/300': '#02F2B2',
-            'Primary/500': '#1276BB',
-            'Primary/700': '#017959',
-            'Primary/900': '#01513B',
-            'Success/100': '#DCFCE7',
-            'Success/500': '#16A34A',
-            'Success/900': '#166534',
-            'Warning/100': '#FEF9C3',
-            'Warning/500': '#FACC15',
-            'Warning/900': '#CA8A04',
-            'Error/100': '#FEE2E2',
-            'Error/500': '#DC2626',
-            'Error/900': '#991B1B',
+        base: {
+            white: '#FFFFFF',
+            black: '#212121',
+        },
+        neutral: {
+            100: '#F6F7F9',
+            300: '#E3E5E8',
+            500: '#9CA3AF',
+            700: '#5A6472',
+            900: '#333E4D',
+        },
+        primary: {
+            100: '#D7FFF4',
+            300: '#02F2B2',
+            500: '#02A57A',
+            700: '#017959',
+            900: '#01513B',
+        },
+        success: {
+            100: '#DCFCE7',
+            500: '#16A34A',
+            900: '#166534',
+        },
+        warning: {
+            100: '#FEF9C3',
+            500: '#FACC15',
+            900: '#CA8A04',
+        },
+        error: {
+            100: '#FEE2E2',
+            500: '#DC2626',
+            900: '#991B1B',
         },
     },
     shadows: {
-        sm: '0px 1px 2px 0px #1F2937 8%;',
-        md: '0px 2px 4px 0px #1F2937 8%;',
-        lg: '0px 4px 8px 0px #1F2937 8%;',
+        small: '0px 1px 2px 0px #1F2937 8%',
+        medium: '0px 2px 4px 0px #1F2937 8%',
+        large: '0px 4px 8px 0px #1F2937 8%',
     },
-    textStyle: {
+    textStyles: {
         heading: {
             fontSize: '64px',
             fontWeight: 'bold',
@@ -90,13 +116,13 @@ const theme = extendTheme({
             letterSpacing: '0%',
         },
         text1: {
-            fontSize: '10px',
+            fontSize: '14px',
             fontWeight: 'regular',
             lineHeight: '20px',
             letterSpacing: '0%',
         },
         text2: {
-            fontSize: '10px',
+            fontSize: '12px',
             fontWeight: 'regular',
             lineHeight: '18px',
             letterSpacing: '0%',
@@ -126,4 +152,4 @@ const theme = extendTheme({
     },
 });
 
-export default theme;
+export default cakraTheme;

@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 export default function Home() {
     return (
-        <Box p={4}>
-            <Heading mb={4}>Home Page</Heading>
+        <Box>
+            <Heading>Home Page</Heading>
             <Link href="/auth/login">
-                <Button colorScheme="blue">Go to Dashboard</Button>
+                <Button colorScheme="blue">Go to Login Page</Button>
             </Link>
         </Box>
     );
