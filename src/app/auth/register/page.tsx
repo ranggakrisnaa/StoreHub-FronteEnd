@@ -7,11 +7,30 @@ export default function Page() {
     return (
         <>
             <Box bg="neutral.100" h="auto" display="flex" justifyContent="center" position="relative" overflow="hidden">
-                <Box position="absolute" top="0" left="-70px" p={4} zIndex="99">
-                    <Image src="/image2.png" alt="Left Image" w="500px" />
+                <Box
+                    position="absolute"
+                    top={{ base: '10px', md: '0' }}
+                    left={{ base: '0', md: '-80px', xl: '-70px' }}
+                    zIndex="99"
+                >
+                    <Image
+                        src="/image2.png"
+                        alt="Left Image"
+                        w={{ base: '200px', md: '340px', xl: '500px' }}
+                        maxW="100%"
+                    />
                 </Box>
-                <Box position="absolute" bottom="0" right="-70px" p={4}>
-                    <Image src="/image1.png" alt="Right Image" w="500px" />
+                <Box
+                    position="absolute"
+                    bottom={{ base: '10px', md: '0' }}
+                    right={{ base: '0', md: '-80px', xl: '-70px' }}
+                >
+                    <Image
+                        src="/image1.png"
+                        alt="Right Image"
+                        w={{ base: '200px', md: '340px', xl: '500px' }}
+                        maxW="100%"
+                    />
                 </Box>
                 <Box margin="106px 451px">
                     <AuthLayout
@@ -52,7 +71,7 @@ export default function Page() {
                         <Box paddingBottom="32px">
                             <InputGroup
                                 formLabel="Phone Number"
-                                placeholder="8123456"
+                                placeholder="8123456789"
                                 size="md"
                                 w="full"
                                 borderRadius="8px"
@@ -66,7 +85,7 @@ export default function Page() {
                                 size="md"
                                 w="475px"
                                 borderRadius="8px"
-                                typeInput="Password"
+                                typeInput="password"
                             />
                         </Box>
                         <Box paddingBottom="32px">
@@ -76,7 +95,7 @@ export default function Page() {
                                 size="md"
                                 w="475px"
                                 borderRadius="8px"
-                                typeInput="Password"
+                                typeInput="password"
                             />
                         </Box>
                         <FormButton w="475px" borderRadius="10px" type="login" />

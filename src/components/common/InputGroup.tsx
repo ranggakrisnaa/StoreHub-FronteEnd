@@ -19,7 +19,7 @@ const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput }
                 {formLabel}
             </Box>
             <Box display="flex" justifyContent="center" alignItems="center" gap="10px">
-                {formLabel == 'Phone Number' ? (
+                {formLabel == 'Phone Number' && (
                     <Box
                         padding="8px"
                         fontWeight="bold"
@@ -31,8 +31,6 @@ const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput }
                     >
                         +62
                     </Box>
-                ) : (
-                    ''
                 )}
                 <FormInput
                     placeholder={placeholder}
