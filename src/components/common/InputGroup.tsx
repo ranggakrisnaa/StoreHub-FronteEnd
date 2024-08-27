@@ -9,9 +9,10 @@ interface InputGroupProps {
     w?: string;
     size: string;
     borderRadius: string;
+    typeInput: string;
 }
 
-const InputGroup = ({ formLabel, placeholder, w, size, borderRadius }: InputGroupProps) => {
+const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput }: InputGroupProps) => {
     return (
         <FormControl>
             <Box textStyle="label1" mb="4px">
@@ -33,7 +34,13 @@ const InputGroup = ({ formLabel, placeholder, w, size, borderRadius }: InputGrou
                 ) : (
                     ''
                 )}
-                <FormInput placeholder={placeholder} w={w} size={size} borderRadius={borderRadius} />
+                <FormInput
+                    placeholder={placeholder}
+                    w={w}
+                    size={size}
+                    borderRadius={borderRadius}
+                    typeInput={typeInput}
+                />
             </Box>
         </FormControl>
     );
