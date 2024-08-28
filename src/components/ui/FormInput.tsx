@@ -9,9 +9,19 @@ interface InputProps {
     size: string;
     borderRadius: string;
     typeInput: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    value: string;
 }
 
-const FormInput: React.FC<InputProps> = ({ placeholder, w, size, borderRadius, typeInput }: InputProps) => {
+const FormInput: React.FC<InputProps> = ({
+    placeholder,
+    w,
+    size,
+    borderRadius,
+    typeInput,
+    onChange,
+    value,
+}: InputProps) => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
 
@@ -23,6 +33,8 @@ const FormInput: React.FC<InputProps> = ({ placeholder, w, size, borderRadius, t
                 size={size}
                 borderRadius={borderRadius}
                 type={typeInput === 'password' && show ? 'text' : typeInput}
+                onChange={onChange}
+                value={value}
             />
             {typeInput === 'password' && (
                 <InputRightElement width="4.5rem">

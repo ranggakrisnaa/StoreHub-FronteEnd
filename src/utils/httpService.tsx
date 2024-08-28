@@ -1,34 +1,40 @@
-export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export interface FetchOptions {
-  method?: HttpMethod;
-  headers?: HeadersInit;
-  body?: any;
+    method?: HttpMethod;
+    headers?: HeadersInit;
+    body?: any;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_KEY || 'http://localhost:3000';
+
 export async function httpRequest<T>(
-  url: string,
-  { method = "GET", headers = {}, body }: FetchOptions = {}
+    url: string,
+    { method = 'GET', headers = {}, body }: FetchOptions = {},
 ): Promise<T> {
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    // const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  const defaultHeaders: HeadersInit = {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...headers,
-  };
+    // const defaultHeaders: HeadersInit = {
+    //     'Content-Type': 'application/json',
+    //     ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    //     ...headers,
+    // };
+    console.log(`${API_BASE_URL}${url}`);
+    console.log(body);
 
-  const response = await fetch(url, {
-    method,
-    headers: defaultHeaders,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+        method,
+        body: body ? JSON.stringify(body) : undefined,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Something went wrong");
-  }
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Something went wrong');
+    }
+    console.log(response);
 
-  return response.json();
+    return response.json();
 }

@@ -1,15 +1,17 @@
-import { useAuthStore } from '@/contexts/stores/authStore';
+import { useAuthStore } from '@/contexts/stores/authTokenStore';
 import { httpRequest } from '@/utils/httpService';
 
-export default async function login(username: string, password: string) {
+export default async function login(usernameOrEmail: string, password: string) {
     try {
-        const response = await httpRequest<{ token: string }>('/v1/users/login', {
+        const response = await httpRequest<any>('/v1/users/login', {
             method: 'POST',
-            body: { username, password },
+            body: { usernameOrEmail, password },
         });
 
         useAuthStore.getState().setToken(response.token);
+
+        return response;
     } catch (error) {
-        console.error(error);
+        throw error;
     }
 }

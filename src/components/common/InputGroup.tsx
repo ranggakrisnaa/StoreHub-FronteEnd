@@ -10,9 +10,11 @@ interface InputGroupProps {
     size: string;
     borderRadius: string;
     typeInput: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    value: string;
 }
 
-const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput }: InputGroupProps) => {
+const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput, onChange, value }: InputGroupProps) => {
     return (
         <FormControl>
             <Box textStyle="label1" mb="4px">
@@ -37,7 +39,9 @@ const InputGroup = ({ formLabel, placeholder, w, size, borderRadius, typeInput }
                     w={w}
                     size={size}
                     borderRadius={borderRadius}
+                    value={value}
                     typeInput={typeInput}
+                    onChange={onChange}
                 />
             </Box>
         </FormControl>

@@ -1,13 +1,57 @@
+'use client';
+
 import InputGroup from '@/components/common/InputGroup';
 import AuthLayout from '@/components/layout/AuthLayout';
 import FormButton from '@/components/ui/FormButton';
-import { Box, Image } from '@chakra-ui/react';
+import { useAuthStore } from '@/contexts/stores/authFormStore';
+import login from '@/services/userService';
+import { Box, Image, Button, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 
 export default function Page() {
+    const { loginData, setLoginData } = useAuthStore();
+    const toast = useToast();
+
+    const handleChange = (field: keyof typeof loginData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLoginData(field, e.target.value);
+    };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await login(loginData.usernameOrEmail, loginData.password);
+            toast({
+                position: 'top',
+                title: 'Login successful!',
+                description: response.message,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+        } catch (error: any) {
+            console.error('Registration failed:', error);
+            toast({
+                position: 'top',
+                title: 'Login failed',
+                description: error.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+    };
+
     return (
         <>
-            <Box bg="neutral.100" h="auto" display="flex" justifyContent="center" position="relative" overflow="hidden">
+            <Box
+                bg="neutral.100"
+                h="auto"
+                display="flex"
+                justifyContent="center"
+                position="relative"
+                overflow="hidden"
+                as="form"
+                onSubmit={handleSubmit}
+            >
                 <Box
                     position="absolute"
                     top={{ base: '10px', md: '0' }}
@@ -49,6 +93,8 @@ export default function Page() {
                                 w="475px"
                                 borderRadius="8px"
                                 typeInput="text"
+                                value={loginData.usernameOrEmail}
+                                onChange={handleChange('usernameOrEmail')}
                             />
                         </Box>
                         <Box paddingBottom="32px">
@@ -60,6 +106,8 @@ export default function Page() {
                                     w="475px"
                                     borderRadius="8px"
                                     typeInput="password"
+                                    value={loginData.password}
+                                    onChange={handleChange('password')}
                                 />
                             </Box>
                             <Link href="">
@@ -69,7 +117,7 @@ export default function Page() {
                             </Link>
                         </Box>
                         <Box display="flex" justifyContent="center" alignItems="center" gap="20px">
-                            <FormButton w="full" borderRadius="10px" type="login" />
+                            <FormButton w="full" borderRadius="10px" type="login" typeButton="submit" />
                             <Box textStyle="text2">Or</Box>
                             <Box
                                 padding="14px"
