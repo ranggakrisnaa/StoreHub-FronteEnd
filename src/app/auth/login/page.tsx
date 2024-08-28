@@ -4,7 +4,7 @@ import InputGroup from '@/components/common/InputGroup';
 import AuthLayout from '@/components/layout/AuthLayout';
 import FormButton from '@/components/ui/FormButton';
 import { useAuthStore } from '@/contexts/stores/authFormStore';
-import login from '@/services/userService';
+import { login } from '@/services/userService';
 import { Box, Image, Button, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -18,7 +18,7 @@ export default function Page() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await login(loginData.usernameOrEmail, loginData.password);
+            const response = await login(loginData);
             toast({
                 position: 'top',
                 title: 'Login successful!',
@@ -28,7 +28,7 @@ export default function Page() {
                 isClosable: true,
             });
         } catch (error: any) {
-            console.error('Registration failed:', error);
+            console.error(error);
             toast({
                 position: 'top',
                 title: 'Login failed',

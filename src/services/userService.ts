@@ -1,14 +1,26 @@
 import { useAuthStore } from '@/contexts/stores/authTokenStore';
+import { UserLoginType, UserRegisterType } from '@/types/userType';
 import { httpRequest } from '@/utils/httpService';
 
-export default async function login(usernameOrEmail: string, password: string) {
+export async function login(userLoginData: UserLoginType) {
     try {
         const response = await httpRequest<any>('/v1/users/login', {
             method: 'POST',
-            body: { usernameOrEmail, password },
+            body: userLoginData,
         });
 
-        useAuthStore.getState().setToken(response.token);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function register(userRegisterData: UserRegisterType) {
+    try {
+        const response = await httpRequest<any>('/v1/users/register', {
+            method: 'POST',
+            body: userRegisterData,
+        });
 
         return response;
     } catch (error) {

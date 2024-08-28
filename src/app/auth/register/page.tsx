@@ -1,10 +1,15 @@
+'use client';
+
 import InputGroup from '@/components/common/InputGroup';
 import AuthLayout from '@/components/layout/AuthLayout';
 import FormButton from '@/components/ui/FormButton';
-import { useAuthStore } from '@/contexts/stores/authTokenStore';
+import { useAuthStore } from '@/contexts/stores/authFormStore';
+import { register } from '@/services/userService';
 import { Box, Image, useToast } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
+    const router = useRouter();
     const { registerData, setRegisterData } = useAuthStore();
     const toast = useToast();
 
@@ -13,27 +18,28 @@ export default function Page() {
     };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // try {
-        //     const response = await login(loginData.usernameOrEmail, loginData.password);
-        //     toast({
-        //         position: 'top',
-        //         title: 'Login successful!',
-        //         description: response.message,
-        //         status: 'success',
-        //         duration: 5000,
-        //         isClosable: true,
-        //     });
-        // } catch (error: any) {
-        //     console.error('Registration failed:', error);
-        //     toast({
-        //         position: 'top',
-        //         title: 'Login failed',
-        //         description: error.message,
-        //         status: 'error',
-        //         duration: 5000,
-        //         isClosable: true,
-        //     });
-        // }
+        try {
+            const response = await register(registerData);
+            toast({
+                position: 'top',
+                title: 'Register successful!',
+                description: response.message,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+            router.push('/auth/login');
+        } catch (error: any) {
+            console.error('Registration failed:', error);
+            toast({
+                position: 'top',
+                title: 'Register failed',
+                description: error.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
     };
     return (
         <>
@@ -100,7 +106,7 @@ export default function Page() {
                                     size="md"
                                     borderRadius="8px"
                                     typeInput="text"
-                                    value={registerData.usename}
+                                    value={registerData.username}
                                     onChange={handleChange('username')}
                                 />
                                 <InputGroup
