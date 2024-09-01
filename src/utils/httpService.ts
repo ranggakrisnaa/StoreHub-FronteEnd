@@ -19,8 +19,6 @@ export async function httpRequest<T>(
     //     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     //     ...headers,
     // };
-    console.log(`${API_BASE_URL}${url}`);
-    console.log(body);
 
     const response = await fetch(`${API_BASE_URL}${url}`, {
         method,

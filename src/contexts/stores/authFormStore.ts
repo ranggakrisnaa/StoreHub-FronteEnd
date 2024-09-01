@@ -15,8 +15,12 @@ interface AuthState {
         password: string;
         confirmPassword: string;
     };
+    verifyLoginData: {
+        otp: number | string;
+    };
     setLoginData: (field: keyof AuthState['loginData'], value: string) => void;
     setRegisterData: (field: keyof AuthState['registerData'], value: string) => void;
+    setVerifyLoginData: (field: keyof AuthState['verifyLoginData'], value: number) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -34,6 +38,10 @@ export const useAuthStore = create<AuthState>((set) => ({
         password: '',
         confirmPassword: '',
     },
+    verifyLoginData: {
+        email: '',
+        otp: '',
+    },
     setLoginData: (field, value) =>
         set((state) => ({
             loginData: { ...state.loginData, [field]: value },
@@ -41,5 +49,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     setRegisterData: (field, value) =>
         set((state) => ({
             registerData: { ...state.registerData, [field]: value },
+        })),
+    setVerifyLoginData: (field, value) =>
+        set((state) => ({
+            verifyLoginData: { ...state.verifyLoginData, [field]: value },
         })),
 }));

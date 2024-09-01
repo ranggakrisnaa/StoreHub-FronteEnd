@@ -5,40 +5,65 @@ import AuthLayout from '@/components/layout/AuthLayout';
 import FormButton from '@/components/ui/FormButton';
 import { useAuthStore } from '@/contexts/stores/authFormStore';
 import { login } from '@/services/userService';
-import { Box, Image, Button, useToast } from '@chakra-ui/react';
+import { saveUserData } from '@/utils/UserData';
+import { Box, Image, Button, useToast, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function Page() {
     const { loginData, setLoginData } = useAuthStore();
+    const [loading, setLoading] = useState(true);
     const toast = useToast();
+    const router = useRouter();
 
     const handleChange = (field: keyof typeof loginData) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginData(field, e.target.value);
     };
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await login(loginData);
-            toast({
-                position: 'top',
-                title: 'Login successful!',
-                description: response.message,
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            });
-        } catch (error: any) {
-            console.error(error);
-            toast({
-                position: 'top',
-                title: 'Login failed',
-                description: error.message,
-                status: 'error',
-                duration: 5000,
-                isClosable: true,
-            });
-        }
-    };
+    const handleSubmit = useCallback(
+        async (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            setLoading(true);
+            try {
+                const response = await login(loginData);
+                saveUserData('email', response.data.email);
+                toast({
+                    position: 'top',
+                    title: 'Login successful!',
+                    description: response.message,
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                router.push('/auth/verify');
+            } catch (error: any) {
+                console.error(error);
+                toast({
+                    position: 'top',
+                    title: 'Login failed',
+                    description: error.message,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [loginData, router, toast],
+    );
+
+    useEffect(() => {
+        setLoading(false);
+    }, [handleSubmit]);
+
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Heading>Loading...</Heading>
+            </Box>
+        );
+    }
 
     return (
         <>

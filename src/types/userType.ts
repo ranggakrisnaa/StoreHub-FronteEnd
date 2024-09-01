@@ -11,3 +11,8 @@ export type UserRegisterType = {
     confirmPassword: string;
     password: string;
 };
+
+export type UserVerifyType = {
+    email: string;
+    otp: number;
+};
