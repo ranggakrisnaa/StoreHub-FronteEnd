@@ -27,7 +27,7 @@ export default function Home() {
         };
 
         checkToken();
-    }, [token]);
+    }, [token, router]);
 
     if (loading) {
         return (
