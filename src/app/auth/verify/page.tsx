@@ -44,6 +44,8 @@ export default function VerifyPage() {
                     duration: 5000,
                     isClosable: true,
                 });
+            } finally {
+                setLoading(false);
             }
         },
         [verifyLoginData, router, toast],
